@@ -1,0 +1,259 @@
+<html>
+
+    <head>
+        <meta charset="UTF-8">
+        <title>
+            Zegar słowny
+        </title>
+        <script src="//unpkg.com/alpinejs" defer></script>
+        <style id="theme">
+            :root {
+                --color-background: 000;
+                --color-inactive: #222;
+                --color-active: #fff;
+                --color-active2: #555;
+            }
+        </style>
+        <style>
+            span {
+                color: var(--color-inactive);
+            }
+
+            .word {
+                color: var(--color-inactive) !important;
+            }
+
+            .active {
+                color: var(--color-active) !important;
+            }
+
+            .seconds .active {
+                color: var(--color-active2) !important;
+            }
+
+            div {
+                background-color: var(--color-background);
+            }
+
+            div.containerT {
+                display: table;
+                position: absolute;
+                top: 0;
+                left: 0;
+                height: 100%;
+                width: 100%;
+            }
+
+            div.containerTC {
+                display: table-cell;
+                vertical-align: middle;
+                padding-left: 5px;
+            }
+
+            html {
+                font-size: 6.4vmin;
+                font-family: "Space Mono", monospace;
+                white-space: nowrap;
+                letter-spacing: 0.2em;
+                text-transform: uppercase;
+                line-height: 1.2em;
+                text-align: center;
+            }
+
+            .buttons {
+                float: left;
+                position: absolute;
+                display: inline;
+            }
+
+            .hidden {
+                display: none;
+            }
+        </style>
+        <script type="text/javascript">
+            var debug = localStorage.getItem('debug') != null ? JSON.parse(localStorage.getItem('debug')) : false;
+            var themes = {
+                "Czarny": ":root{--color-background: #000;--color-inactive: #222;--color-active: #fff;--color-active2: #555;}",
+                "Biały": ":root{--color-background: #fff;--color-inactive: #eee;--color-active: #000;--color-active2: #000;}",
+                "Fioletowy": ":root{--color-background: #E6C0E9;--color-inactive: #DAA6DD;--color-active: #8547FF;--color-active2: #000;}",
+                "Zielony": ":root{--color-background: #E4FDE1;--color-inactive: #AEC1C0;--color-active: #347132;--color-active2: #000;}",
+            };
+
+            function setClass(selector, state, className) {
+                elems = document.querySelectorAll(selector);
+                if (state) {
+                    elems.forEach(elem => elem.classList.add(className));
+                }
+                else {
+                    elems.forEach(elem => elem.classList.remove(className));
+                }
+            }
+
+            function setActive(selector, state) {
+                setClass(selector, state, 'active');
+            }
+
+
+            function setHidden(selector, state) {
+                setClass(selector, state, 'hidden');
+            }
+
+            function setTime(time) {
+                if (debug) {
+                    dateTime = new Date('2022-07-17 ' + document.querySelector('#timeOverride').value);
+                }
+                else {
+                    dateTime = new Date();
+                }
+
+                po = dateTime.getMinutes() < 30;
+                oclock = dateTime.getMinutes() == 0;
+
+                setActive('.po', !oclock && po);
+                setActive('.do', !oclock && !po);
+
+                hour = dateTime.getHours() > 12 ? dateTime.getHours() - 12 : (dateTime.getHours() == 0 ? 12 : dateTime.getHours());
+                hourClass = po ? `h${hour}${oclock ? '' : 'm'}` : `h${hour + 1 > 12 ? 1 : hour + 1}${oclock ? '' : 'm'}`;
+
+                setActive('.h1', hourClass == 'h1');
+                setHidden('.h1', !(hourClass == 'h1' || hourClass == 'h1m'));
+                setHidden('.h1w', !(hourClass == 'h1' || hourClass == 'h1m'));
+
+                setActive('.h2', hourClass == 'h2');
+                setHidden('.h2', !(hourClass == 'h2' || hourClass == 'h2m'));
+                setHidden('.h2w', !(hourClass == 'h2' || hourClass == 'h2m'));
+
+                setActive('.h3', hourClass == 'h3');
+                setHidden('.h3', !(hourClass == 'h3' || hourClass == 'h3m'));
+                setHidden('.h3w', !(hourClass == 'h3' || hourClass == 'h3m'));
+
+                setActive('.h4', hourClass == 'h4');
+                setHidden('.h4', !(hourClass == 'h4' || hourClass == 'h4m'));
+                setHidden('.h4w', !(hourClass == 'h4' || hourClass == 'h4m'));
+
+                setActive('.h5', hourClass == 'h5');
+                setHidden('.h5', !(hourClass == 'h5' || hourClass == 'h5m'));
+                setHidden('.h5w', !(hourClass == 'h5' || hourClass == 'h5m'));
+
+                setActive('.h6', hourClass == 'h6');
+                setHidden('.h6', !(hourClass == 'h6' || hourClass == 'h6m'));
+                setHidden('.h6w', !(hourClass == 'h6' || hourClass == 'h6m'));
+
+                setActive('.h7', hourClass == 'h7');
+                setHidden('.h7', !(hourClass == 'h7' || hourClass == 'h7m'));
+                setHidden('.h7w', !(hourClass == 'h7' || hourClass == 'h7m'));
+
+                setActive('.h8', hourClass == 'h8');
+                setHidden('.h8', !(hourClass == 'h8' || hourClass == 'h8m'));
+                setHidden('.h8w', !(hourClass == 'h8' || hourClass == 'h8m'));
+
+                setActive('.h9', hourClass == 'h9');
+                setHidden('.h9', !(hourClass == 'h9' || hourClass == 'h9m'));
+
+                setActive('.h10', hourClass == 'h10');
+                setHidden('.h10', !(hourClass == 'h10' || hourClass == 'h10m'));
+
+                setActive('.h11', hourClass == 'h11');
+                setHidden('.h11', !(hourClass == 'h11' || hourClass == 'h11m'));
+
+                setActive('.h12', hourClass == 'h12');
+                setHidden('.h12', !(hourClass == 'h12' || hourClass == 'h12m'));
+                setHidden('.h12w', !(hourClass == 'h12' || hourClass == 'h12m'));
+
+                setActive('.h1m', hourClass == 'h1m');
+                setActive('.h2m', hourClass == 'h2m');
+                setActive('.h3m', hourClass == 'h3m');
+                setActive('.h4m', hourClass == 'h4m');
+                setActive('.h5m', hourClass == 'h5m');
+                setActive('.h6m', hourClass == 'h6m');
+                setActive('.h7m', hourClass == 'h7m');
+                setActive('.h8m', hourClass == 'h8m');
+                setActive('.h9m', hourClass == 'h9m');
+                setActive('.h10m', hourClass == 'h10m');
+                setActive('.h11m', hourClass == 'h11m');
+                setActive('.h12m', hourClass == 'h12m');
+
+                minute = dateTime.getMinutes() > 30 ? 60 - dateTime.getMinutes() : dateTime.getMinutes();
+                // console.log(minute);
+                setActive('.m1', 1 <= minute % 5 && minute % 5 <= 4);
+                setActive('.m2', 2 <= minute % 5 && minute % 5 <= 4);
+                setActive('.m3', 3 <= minute % 5 && minute % 5 <= 4);
+                setActive('.m4', 4 <= minute % 5 && minute % 5 <= 4);
+
+                setActive('.m5', 5 <= minute && minute <= 9);
+                setActive('.m10', 10 <= minute && minute <= 14);
+                setActive('.m15', 15 <= minute && minute <= 19);
+                setActive('.m20', 20 <= minute && minute <= 29);
+                setActive('.m25', 25 <= minute && minute <= 29);
+                setActive('.m30', 30 <= minute && minute <= 30);
+            }
+
+            function showButtons() {
+                document.querySelector('.buttons').classList.remove('hidden');
+                setTimeout(() => {
+                    document.querySelector('.buttons').classList.add('hidden');
+                }, 5000);
+            }
+
+            function makeFullscreen() {
+                elem = document.querySelector('.containerT');
+                if (elem.requestFullscreen) {
+                    elem.requestFullscreen();
+                } else if (elem.webkitRequestFullscreen) { /* Safari */
+                    elem.webkitRequestFullscreen();
+                } else if (elem.msRequestFullscreen) { /* IE11 */
+                    elem.msRequestFullscreen();
+                }
+            }
+
+            function setTheme(theme) {
+                localStorage.setItem('theme', theme);
+                document.querySelector('#theme').innerHTML = themes[theme];
+            }
+
+            function toggleSeconds() {
+                showSeconds = !showSeconds;
+                setActive('.seconds.active', false);
+            }
+
+            function toggleDebug() {
+                setHidden('#timeOverride', debug);
+                debug = !debug;
+                localStorage.setItem('debug', JSON.stringify(debug));
+            }
+
+            function log(text) {
+                document.getElementById('log').innerText = text;
+            }
+        </script>
+    </head>
+
+    <body>
+        <div class="containerT">
+            <div class="buttons hidden"><button onclick="makeFullscreen()">Fullscreen</button><button onclick="toggleDebug()">Debug</button></div>
+            <div class="containerTC" onclick="showButtons()">
+                <input type="text" id="timeOverride" class="hidden" value="01:45:00">
+            </div><br>
+            <div class="containerTC" onclick="showButtons()">
+                <div><span class="word active" onclick="makeFullscreen()">teraz</span><span class="word">Y</span><span class="word active">jest</span><span class="word">V</span><span class="h1">pierwsza</span><span class="h1w word">D</span><span class="h2 hidden">druga</span><span class="h2w word hidden">ESDF</span><span class="h3 hidden">trzecia</span><span class="h3w word hidden">UX</span><span class="h4 hidden">czwarta</span><span class="h4w word hidden">JG</span><span class="h5 hidden">piąta</span><span class="h5w word hidden">IDOA</span><span class="h6 hidden">szósta</span><span class="h6w word hidden">WDS</span><span class="h7 hidden">siódma</span><span class="h7w word hidden">LBR</span><span class="h8 hidden">ósma</span><span class="h8w word hidden">WASDC</span><span class="h9 hidden">dziewiąta</span><span class="h10 hidden">dziesiąta</span><span class="h11 hidden">jedenasta</span><span class="h12 hidden">dwunasta</span><span class="h12w word hidden">Q</span></div>
+                <div><span class="m5">pięć</span><span class="m10">dziesięć</span><span class="m15">kwadrans</span></div>
+                <div><span class="m20">dwadzieścia</span><span class="m25">pięć</span><span class="word">H</span><span class="m1">X</span><span class="m2">X</span><span class="m3">X</span><span class="m4">X</span></div>
+                <div><span class="m30">Wpół</span><span class="po">Po</span></span><span class="do">Do</span><span class="word">X</span><span class="h1m">pierwszej</span><span class="word">HS</span></div>
+                <div><span class="word">U</span><span class="h2m">drugiej</span><span class="word">AH</span><span class="h3m">trzeciej</span><span class="word">EQ</span></div>
+                <div><span class="h4m">czwartej</span><span class="word">LYH</span><span class="h5m">piątej</span><span class="word">ARU</span></div>
+                <div><span class="h6m">szóstej</span><span class="word">N</span><span class="h7m">siódmej</span><span class="h8m">ósmej</span></div>
+                <div><span class="h9m">dziewiątej</span><span class="h10m">dziesiatej</span></div>
+                <div><span class="h11m">jedenastej</span><span class="h12m">dwunastej</span><span class="word">M</span></div>
+            </div>
+        </div>
+        <script type="text/javascript">
+            setTheme(localStorage.getItem('theme') != null ? localStorage.getItem('theme') : 'Czarny');
+            setHidden('#timeOverride', !debug);
+
+            setTime();
+            for (theme in themes) {
+                document.querySelector('.buttons').innerHTML += `<button onclick="setTheme('${theme}')">${theme}</button>`;
+            }
+            setInterval(setTime, 100);
+        </script>
+    </body>
