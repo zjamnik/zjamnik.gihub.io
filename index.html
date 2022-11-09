@@ -68,7 +68,7 @@
             }
         </style>
         <script type="text/javascript">
-
+            var debug = localStorage.getItem('debug') != null ? JSON.parse(localStorage.getItem('debug')) : false;
             var themes = {
                 "Czarny": "span{color:#222}.word{color:#222!important}.active{color:#fff!important}.seconds.active{color:#555!important}div{background-color:#000}",
                 "Biały": "span{color:#eee}.word{color:#eee!important}.active{color:#000!important}.seconds.active{color:#ccc!important}div{background-color:#fff}",
@@ -77,14 +77,22 @@
 
             var showSeconds = true;
 
-            function setActive(selector, state) {
+            function setClass(selector, state, className) {
                 elems = document.querySelectorAll(selector);
                 if (state) {
-                    elems.forEach(elem => elem.classList.add('active'));
+                    elems.forEach(elem => elem.classList.add(className));
                 }
                 else {
-                    elems.forEach(elem => elem.classList.remove('active'));
+                    elems.forEach(elem => elem.classList.remove(className));
                 }
+            }
+
+            function setActive(selector, state) {
+                setClass(selector, state, 'active');
+            }
+
+            function setHidden(selector, state) {
+                setClass(selector, state, 'hidden');
             }
 
             function setTime(time) {
@@ -250,11 +258,11 @@
                 setActive('.seconds.active', false);
             }
 
-                function toggleDebug() {
-                    setHidden('#timeOverride', debug);
-                    debug = !debug;
-                    localStorage.setItem('debug', JSON.stringify(debug));
-                }
+            function toggleDebug() {
+                setHidden('#timeOverride', debug);
+                debug = !debug;
+                localStorage.setItem('debug', JSON.stringify(debug));
+            }
 
             function log(text) {
                 document.getElementById('log').innerText = text;
@@ -265,7 +273,8 @@
     <body>
         <span id="log"></span>
         <div class="containerT">
-            <div class="buttons hidden"><button onclick="makeFullscreen()">Fullscreen</button><button><a href="./zegar2.html">Mały zegar</a></button><button onclick="toggleSeconds()">Sekundy</button><button onclick="toggleDebug()">Debug</button></div><div class="containerTC" onclick="showButtons()">
+            <div class="buttons hidden"><button onclick="makeFullscreen()">Fullscreen</button><button><a href="./zegar2.html">Mały zegar</a></button><button onclick="toggleSeconds()">Sekundy</button><button onclick="toggleDebug()">Debug</button></div>
+            <div class="containerTC" onclick="showButtons()">
                 <input type="text" id="timeOverride" class="hidden" value="01:45:00">
             </div><br>
             <div class="containerTC" onclick="showButtons()">
