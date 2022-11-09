@@ -60,15 +60,15 @@
                 text-align: center;
             }
 
+            a {
+                text-decoration: none;
+                color: initial;
+            }
+
             .buttons {
                 float: left;
                 position: absolute;
                 display: inline;
-            }
-
-            a {
-                text-decoration: none;
-                color: initial;
             }
 
             .hidden {
@@ -235,8 +235,7 @@
 
     <body>
         <div class="containerT">
-            <div class="buttons hidden"><button onclick="makeFullscreen()">Fullscreen</button><a href="./index.html">Duży zegar</a></button><!-- <button onclick="toggleDebug()">Debug</button>-->
-            </div>
+            <div class="buttons hidden"><button onclick="makeFullscreen()">Fullscreen</button><a href="./index.html">Duży zegar</a></button><button onclick="toggleDebug()">Debug</button></div>
             <div class="containerTC" onclick="showButtons()">
                 <input type="text" id="timeOverride" class="hidden" value="01:45:00">
             </div><br>
