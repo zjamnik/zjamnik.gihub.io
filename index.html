@@ -52,6 +52,11 @@
                 text-align: center;
             }
 
+            a {
+                text-decoration: none;
+                color: initial;
+            }
+
             .buttons {
                 float: left;
                 position: absolute;
@@ -250,7 +255,7 @@
     <body>
         <span id="log"></span>
         <div class="containerT">
-            <div class="buttons hidden"><button onclick="makeFullscreen()">Fullscreen</button><button onclick="toggleSeconds()">Seconds</button></div>
+            <div class="buttons hidden"><button onclick="makeFullscreen()">Fullscreen</button><button><a href="./zegar2.html">Mały zegar</a></button><button onclick="toggleSeconds()">Sekundy</button></div>
             <div class="containerTC" onclick="showButtons()">
                 <!-- <input type="text" value="01:45:00"> -->
                 <div><span class="active" onclick="makeFullscreen()">Teraz</span><span class="word">X</span><span class="active">Jest</span><span class="word"><span class="s0 seconds">S</span><span span class="s1 seconds">m</span><span class="s2 seconds">o</span><span class="s3 seconds">k</span></span><span class="m20 m21 m22 m23 m24 m25 m26 m27 m28 m29">Dwadzieścia</span> </div>
